@@ -8,7 +8,9 @@ def get_db():
         password=current_app.config['MYSQL_PASSWORD'],
         database=current_app.config['MYSQL_DB'],
         port=current_app.config['MYSQL_PORT'],
-        cursorclass=pymysql.cursors.DictCursor
+        cursorclass=pymysql.cursors.DictCursor,
+        ssl_disabled=False,
+        connect_timeout=30
     )
     return conn
 
