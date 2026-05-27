@@ -2,16 +2,21 @@ import pymysql
 from flask import current_app
 
 def get_db():
-    conn = pymysql.connect(
-        host=current_app.config['MYSQL_HOST'],
-        user=current_app.config['MYSQL_USER'],
-        password=current_app.config['MYSQL_PASSWORD'],
-        database=current_app.config['MYSQL_DB'],
-        port=current_app.config['MYSQL_PORT'],
-        cursorclass=pymysql.cursors.DictCursor,
-        ssl_disabled=not current_app.config.get('MYSQL_SSL', False),
-        connect_timeout=30
-    )
+    conn_params = {
+        "host": current_app.config['MYSQL_HOST'],
+        "user": current_app.config['MYSQL_USER'],
+        "password": current_app.config['MYSQL_PASSWORD'],
+        "database": current_app.config['MYSQL_DB'],
+        "port": current_app.config['MYSQL_PORT'],
+        "cursorclass": pymysql.cursors.DictCursor,
+        "connect_timeout": 30
+    }
+    
+    # Use SSL for Railway public connection
+    if current_app.config.get('MYSQL_SSL', False):
+        conn_params['ssl'] = {'ssl': {}}
+    
+    conn = pymysql.connect(**conn_params)
     return conn
 
 def success_response(data=None, message="Success", status=200):

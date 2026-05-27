@@ -7,15 +7,20 @@ from flask import current_app
 def init_db():
     """Initialize database schema if tables don't exist."""
     try:
-        conn = pymysql.connect(
-            host=current_app.config['MYSQL_HOST'],
-            user=current_app.config['MYSQL_USER'],
-            password=current_app.config['MYSQL_PASSWORD'],
-            database=current_app.config['MYSQL_DB'],
-            port=current_app.config['MYSQL_PORT'],
-            ssl_disabled=not current_app.config.get('MYSQL_SSL', False),
-            connect_timeout=30
-        )
+        conn_params = {
+            "host": current_app.config['MYSQL_HOST'],
+            "user": current_app.config['MYSQL_USER'],
+            "password": current_app.config['MYSQL_PASSWORD'],
+            "database": current_app.config['MYSQL_DB'],
+            "port": current_app.config['MYSQL_PORT'],
+            "connect_timeout": 30
+        }
+        
+        # Use SSL for Railway public connection
+        if current_app.config.get('MYSQL_SSL', False):
+            conn_params['ssl'] = {'ssl': {}}
+        
+        conn = pymysql.connect(**conn_params)
         
         with conn.cursor() as cursor:
             # Check if items table exists
