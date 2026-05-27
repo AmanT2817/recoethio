@@ -13,6 +13,8 @@ def init_db():
             password=current_app.config['MYSQL_PASSWORD'],
             database=current_app.config['MYSQL_DB'],
             port=current_app.config['MYSQL_PORT'],
+            ssl_disabled=not current_app.config.get('MYSQL_SSL', False),
+            connect_timeout=30
         )
         
         with conn.cursor() as cursor:

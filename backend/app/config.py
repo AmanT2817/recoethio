@@ -6,8 +6,10 @@ class Config:
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'jwt-secret-key-change-in-production')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=24)
 
-    MYSQL_HOST     = os.environ.get('MYSQLHOST', 'localhost')
+    # Use public URL for Railway - internal network not accessible
+    MYSQL_HOST     = os.environ.get('MYSQL_PUBLIC_URI_HOSTNAME', os.environ.get('MYSQLHOST', 'localhost'))
     MYSQL_USER     = os.environ.get('MYSQLUSER', 'root')
     MYSQL_PASSWORD = os.environ.get('MYSQLPASSWORD', '')
     MYSQL_DB       = os.environ.get('MYSQLDATABASE', 'recommendation_system')
-    MYSQL_PORT     = int(os.environ.get('MYSQLPORT', 3306))
+    MYSQL_PORT     = int(os.environ.get('MYSQL_PUBLIC_URI_PORT', os.environ.get('MYSQLPORT', 3306)))
+    MYSQL_SSL       = os.environ.get('ENVIRONMENT') == 'production'
