@@ -29,8 +29,4 @@ def create_app():
     app.register_blueprint(search_bp, url_prefix='/api/search')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
-    # Initialize database on app startup
-    with app.app_context():
-        init_db()
-
     return app
