@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from .config import Config
+from .db_init import init_db
 
 jwt = JWTManager()
 
@@ -27,5 +28,9 @@ def create_app():
     app.register_blueprint(wishlist_bp, url_prefix='/api/wishlist')
     app.register_blueprint(search_bp, url_prefix='/api/search')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
+
+    # Initialize database on app startup
+    with app.app_context():
+        init_db()
 
     return app
