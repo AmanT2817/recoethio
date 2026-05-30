@@ -1,4 +1,5 @@
 import pymysql
+import pymysql.cursors
 from flask import current_app
 
 def get_db():
@@ -8,6 +9,7 @@ def get_db():
     password = current_app.config['MYSQL_PASSWORD']
     database = current_app.config['MYSQL_DB']
 
+    # Use URL-based connection for Railway compatibility
     conn = pymysql.connect(
         host=host,
         user=user,
@@ -18,7 +20,7 @@ def get_db():
         connect_timeout=10,
         read_timeout=10,
         write_timeout=10,
-        ssl_disabled=True
+        ssl={'ca': None, 'check_hostname': False, 'verify_mode': 0}
     )
     return conn
 
