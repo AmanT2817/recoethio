@@ -9,9 +9,9 @@ def get_db():
         "database": current_app.config['MYSQL_DB'],
         "port": current_app.config['MYSQL_PORT'],
         "cursorclass": pymysql.cursors.DictCursor,
-        "connect_timeout": 30,
-        "read_timeout": 30,
-        "write_timeout": 30
+        "connect_timeout": 10,
+        "read_timeout": 10,
+        "write_timeout": 10
     }
     
     if current_app.config.get('MYSQL_SSL', False):
