@@ -65,7 +65,7 @@ def get_engine(app):
         user = app.config['MYSQL_USER']
         password = app.config['MYSQL_PASSWORD']
         database = app.config['MYSQL_DB']
-        url = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}?ssl_disabled=true"
+        url = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"
         _engine = create_engine(url, poolclass=QueuePool, pool_pre_ping=True, pool_recycle=300)
     return _engine
 
