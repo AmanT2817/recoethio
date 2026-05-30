@@ -18,12 +18,15 @@ def init_db():
                 "database": current_app.config['MYSQL_DB'],
                 "port": current_app.config['MYSQL_PORT'],
                 "connect_timeout": 10,
+                "read_timeout": 30,
+                "write_timeout": 30,
                 "autocommit": False
             }
             
-            # Use SSL for Railway public connection
             if current_app.config.get('MYSQL_SSL', False):
-                conn_params['ssl'] = {'ssl': {}}
+                conn_params['ssl_disabled'] = False
+                conn_params['ssl_verify_cert'] = False
+                conn_params['ssl_verify_identity'] = False
             
             conn = pymysql.connect(**conn_params)
             
