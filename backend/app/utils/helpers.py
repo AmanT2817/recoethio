@@ -18,9 +18,7 @@ def get_db():
         connect_timeout=10,
         read_timeout=10,
         write_timeout=10,
-        ssl_verify_cert=False,
-        ssl_verify_identity=False,
-        ssl_ca=None
+        ssl_disabled=True
     )
     return conn
 
