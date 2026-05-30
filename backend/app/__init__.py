@@ -20,6 +20,7 @@ def create_app():
     from .routes.wishlist import wishlist_bp
     from .routes.search import search_bp
     from .routes.admin import admin_bp
+    from .routes.debug import debug_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(items_bp, url_prefix='/api/items')
@@ -28,5 +29,6 @@ def create_app():
     app.register_blueprint(wishlist_bp, url_prefix='/api/wishlist')
     app.register_blueprint(search_bp, url_prefix='/api/search')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
+    app.register_blueprint(debug_bp, url_prefix='/api/debug')
 
     return app
