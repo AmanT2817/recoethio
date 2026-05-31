@@ -1,5 +1,6 @@
 {
-  "settings": {
-    "python.github_attestations": false
+  "$schema": "https://schema.railpack.com",
+  "env": {
+    "MISE_PYTHON_GITHUB_ATTESTATIONS": "false"
   }
 }
