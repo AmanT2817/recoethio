@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.railpack.com",
-  "env": {
+  "buildEnv": {
     "MISE_PYTHON_GITHUB_ATTESTATIONS": "false"
   }
 }
