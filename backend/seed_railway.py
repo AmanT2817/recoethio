@@ -1,14 +1,17 @@
 import pymysql
+import os
 from werkzeug.security import generate_password_hash
+from dotenv import load_dotenv
+
+load_dotenv()
 
 conn = pymysql.connect(
-    host='ballast.proxy.rlwy.net',
-    port=28244,
-    user='root',
-    password='EZvQeLKifXcWnffquIaYSolGQMUnbqIO',
-    database='railway',
+    host=os.environ.get('MYSQLHOST', 'mysql.railway.internal'),
+    port=int(os.environ.get('MYSQLPORT', 3306)),
+    user=os.environ.get('MYSQLUSER', 'root'),
+    password=os.environ.get('MYSQLPASSWORD'),
+    database=os.environ.get('MYSQLDATABASE', 'railway'),
     cursorclass=pymysql.cursors.DictCursor,
-    ssl={'ssl': {}},
     connect_timeout=30
 )
 
