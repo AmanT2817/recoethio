@@ -11,13 +11,17 @@ class DictCursorWrapper:
 
     def execute(self, query, args=None):
         if args:
-            # Convert %s placeholders to :1, :2, :3, etc. for SQLAlchemy
-            param_list = list(args) if not isinstance(args, dict) else args
-            converted_query = query
-            for i in range(len(param_list) if not isinstance(args, dict) else 0):
-                converted_query = converted_query.replace('%s', f':{i+1}', 1)
-            bind_params = {str(i+1): v for i, v in enumerate(param_list)} if not isinstance(args, dict) else param_list
-            self._result = self._conn.execute(text(converted_query), bind_params)
+            if isinstance(args, dict):
+                # Named parameters - pass directly
+                self._result = self._conn.execute(text(query), args)
+            else:
+                # Positional parameters - convert %s to :1, :2, :3, etc.
+                param_list = list(args)
+                converted_query = query
+                for i in range(len(param_list)):
+                    converted_query = converted_query.replace('%s', f':{i+1}', 1)
+                bind_params = {str(i+1): v for i, v in enumerate(param_list)}
+                self._result = self._conn.execute(text(converted_query), bind_params)
         else:
             self._result = self._conn.execute(text(query))
 
