@@ -10,6 +10,8 @@ import Wishlist from './pages/Wishlist'
 import Search from './pages/Search'
 import AdminPanel from './pages/AdminPanel'
 import Browse from './pages/Browse'
+import Onboarding from './pages/Onboarding'
+import Ethiopian from './pages/Ethiopian'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
@@ -37,6 +39,8 @@ function AppRoutes() {
         <Route path="/items/:id" element={<ItemDetail />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
+        <Route path="/onboarding" element={<PrivateRoute><Onboarding /></PrivateRoute>} />
+        <Route path="/ethiopian" element={<Ethiopian />} />
         <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

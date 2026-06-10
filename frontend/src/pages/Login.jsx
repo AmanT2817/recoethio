@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { login } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 
@@ -9,6 +9,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const { loginUser } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,7 +19,8 @@ export default function Login() {
       const res = await login(form)
       const { token, user } = res.data.data
       loginUser(token, user)
-      navigate(user.role === 'admin' ? '/admin' : '/dashboard')
+      const isNew = searchParams.get('new') === '1'
+      navigate(isNew ? '/onboarding' : (user.role === 'admin' ? '/admin' : '/dashboard'))
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed')
     } finally {

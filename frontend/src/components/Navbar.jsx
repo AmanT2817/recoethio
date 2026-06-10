@@ -20,6 +20,7 @@ export default function Navbar() {
         <Link to="/browse/movie" className="hover:text-accent transition">Movies</Link>
         <Link to="/browse/music" className="hover:text-accent transition">Music</Link>
         <Link to="/browse/book" className="hover:text-accent transition">Books</Link>
+        <Link to="/ethiopian" className="hover:text-yellow-400 transition text-yellow-400/70">🇪🇹 Ethiopian</Link>
         <Link to="/search" className="hover:text-accent transition">Search</Link>
 
         {user ? (

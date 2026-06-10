@@ -66,3 +66,40 @@ def profile():
             return success_response(data=user)
     finally:
         conn.close()
+
+
+@auth_bp.route('/onboarding', methods=['POST'])
+@jwt_required()
+def onboarding():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    preferences = data.get('preferences', [])
+
+    if not preferences or len(preferences) < 3:
+        return error_response("Please select at least 3 preferences", 400)
+
+    conn = get_db()
+    try:
+        with conn.cursor() as cursor:
+            # Upsert preferences record
+            cursor.execute("SELECT id FROM preferences WHERE user_id = %s", (user_id,))
+            existing = cursor.fetchone()
+            prefs_str = ','.join(preferences)
+            if existing:
+                cursor.execute(
+                    "UPDATE preferences SET fav_genres = %s WHERE user_id = %s",
+                    (prefs_str, user_id)
+                )
+            else:
+                cursor.execute(
+                    "INSERT INTO preferences (user_id, fav_genres) VALUES (%s, %s)",
+                    (user_id, prefs_str)
+                )
+            # Mark user as onboarded
+            cursor.execute(
+                "UPDATE users SET bio = 'onboarded' WHERE id = %s", (user_id,)
+            )
+            conn.commit()
+            return success_response(message="Preferences saved", status=200)
+    finally:
+        conn.close()
